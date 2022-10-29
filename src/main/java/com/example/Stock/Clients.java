@@ -1,24 +1,27 @@
 package com.example.Stock;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
-@Table(name = "fournisseurs")
-public class Fournisseurs {
+@Table(name = "clients")
+public class Clients {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private long id;
     private String name;
 
-    public Fournisseurs() {
-    }
+    @OneToMany
+    private Set<Products> products;
 
-    public Fournisseurs(long id, String name) {
+    public Clients(long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Clients() {
     }
 
     public long getId() {
@@ -37,12 +40,12 @@ public class Fournisseurs {
         this.name = name;
     }
 
+
     @Override
     public String toString() {
-        return "Fournisseurs{" +
+        return "Clients{" +
                 "id=" + id +
-                ", name='" + name +
+                ", name='" + name + '\'' +
                 '}';
     }
-
 }

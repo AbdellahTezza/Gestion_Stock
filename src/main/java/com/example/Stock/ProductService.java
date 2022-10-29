@@ -2,8 +2,6 @@ package com.example.Stock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -11,21 +9,34 @@ import java.util.Objects;
 
 @Service
 public class ProductService {
-
+    @Autowired
     private final ProductRepository productRepository;
+    @Autowired
+    private final FournisseursRepository fournisseursRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    private final ClientsRepository clientsRepository;
+    public ProductService(ProductRepository productRepository, FournisseursRepository fournisseursRepository, ClientsRepository clientsRepository) {
         this.productRepository = productRepository;
+        this.fournisseursRepository = fournisseursRepository;
+        this.clientsRepository = clientsRepository;
     }
 
 
     public List<Products> getproduct() {
         return productRepository.findAll();
     }
-    
-    public void addNewproduct(Products products) {
 
+    public void addNewproduct(Products products) {
+        Long FournisseurId = products.getFournisseur().getId();
+        Fournisseurs fournisseurs = fournisseursRepository.getReferenceById(FournisseurId);
+        System.out.println(fournisseurs);
+        products.setFournisseur(fournisseurs);
+
+        Long id_client = products.getClients().getId();
+        Clients clients = clientsRepository.getReferenceById(id_client);
+        System.out.println(clients);
+        products.setClients(clients);
         productRepository.save(products);
     }
 
@@ -33,7 +44,7 @@ public class ProductService {
         boolean exists = productRepository.existsById(id);
         if(!exists){
             throw new IllegalStateException(
-                "product with id"  +  id + "does not exists"
+                    "product with id"  +  id + "does not exists"
             );
         }
         productRepository.deleteById(id);
@@ -46,7 +57,7 @@ public class ProductService {
                         "product1 with id " + id + "does not exists"));
 
         if(marque != null && marque.length() > 0 && !Objects.equals(products.getMarque(), marque)){
-                products.setMarque(marque);
+            products.setMarque(marque);
         }
 
         if(name != null && name.length() > 0 && !Objects.equals(products.getName(), name)){

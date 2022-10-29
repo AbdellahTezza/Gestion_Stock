@@ -19,21 +19,38 @@ public class Products {
     private Integer stock;
     private double prix;
 
+    @ManyToOne
+    @JoinColumn(name="id_fournisseur" )
+    //@OnDelete(action = OnDeleteAction.CASCADE)
+    //@JsonIgnore
+
+    private Fournisseurs fournisseur;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "clients_id")
+    private Clients clients;
+
 
     public Products() {
     }
 
-    public Products(String name,
-                    String marque,
-                    Integer stock,
-                    double prix)
-    {
+    public Products(long id, String name, String marque, Integer stock, double prix, Fournisseurs fournisseur, Clients clients) {
+        this.id = id;
         this.name = name;
         this.marque = marque;
         this.stock = stock;
         this.prix = prix;
+        this.fournisseur = fournisseur;
+        this.clients = clients;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -65,25 +82,20 @@ public class Products {
         this.prix = prix;
     }
 
-
-
-    @ManyToOne
-    @JoinColumn(name="idFournisseurs" )
-    //@OnDelete(action = OnDeleteAction.CASCADE)
-    //@JsonIgnore
-    private Fournisseurs fournisseurs;
-
-
-    public Products(Fournisseurs fournisseurs) {
-        this.fournisseurs = fournisseurs;
+    public Fournisseurs getFournisseur() {
+        return fournisseur;
     }
 
-    public Fournisseurs getFournisseurs() {
-        return fournisseurs;
+    public void setFournisseur(Fournisseurs fournisseur) {
+        this.fournisseur = fournisseur;
     }
 
-    public void setFournisseurs(Fournisseurs fournisseurs) {
-        this.fournisseurs = fournisseurs;
+    public Clients getClients() {
+        return clients;
+    }
+
+    public void setClients(Clients clients) {
+        this.clients = clients;
     }
 
     @Override
@@ -94,7 +106,8 @@ public class Products {
                 ", marque='" + marque + '\'' +
                 ", stock=" + stock +
                 ", prix=" + prix +
-                ", fournisseurs=" + fournisseurs +
+                ", fournisseur=" + fournisseur +
+                ", clients=" + clients +
                 '}';
     }
 }
