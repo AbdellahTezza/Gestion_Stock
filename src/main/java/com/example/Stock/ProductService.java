@@ -28,15 +28,10 @@ public class ProductService {
     }
 
     public void addNewproduct(Products products) {
-        Long FournisseurId = products.getFournisseur().getId();
-        Fournisseurs fournisseurs = fournisseursRepository.getReferenceById(FournisseurId);
-        System.out.println(fournisseurs);
-        products.setFournisseur(fournisseurs);
-
-        Long id_client = products.getClients().getId();
-        Clients clients = clientsRepository.getReferenceById(id_client);
-        System.out.println(clients);
-        products.setClients(clients);
+       // Long FournisseurId = products.getFournisseur().getId();
+        //Fournisseurs fournisseurs = fournisseursRepository.getReferenceById(FournisseurId);
+        //System.out.println(fournisseurs);
+        //products.setFournisseur(fournisseurs);
         productRepository.save(products);
     }
 
@@ -51,7 +46,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProduct(Long id, String marque, String name, Double prix, Integer stock) {
+    public void updateProduct(Long id, String marque, String name, Double prix) {
         Products products = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException(
                         "product1 with id " + id + "does not exists"));
@@ -68,9 +63,6 @@ public class ProductService {
             products.setPrix(prix);
         }
 
-        if(stock != null && !Objects.equals(products.getStock(), stock)){
-            products.setStock(stock);
-        }
 
     }
 }

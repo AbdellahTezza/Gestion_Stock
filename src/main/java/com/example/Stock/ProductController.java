@@ -39,7 +39,7 @@ public class ProductController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Double prix,
             @RequestParam(required = false) int stock){
-        productService.updateProduct(id, marque,name, prix, stock);
+        productService.updateProduct(id, marque,name, prix);
     }
 
 }
