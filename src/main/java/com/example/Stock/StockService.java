@@ -23,10 +23,13 @@ public class StockService {
     }
 
     public void Addstock(Stock stock){
+        System.out.println("Service entre " +stock);
+        stock.setQuantite(2);
         Long id_product = stock.getProduct().getId();
         Products products = productRepository.getReferenceById(id_product);
         System.out.println(products);
         stock.setProduct(products);
+        System.out.println("Service sortie " +stock);
         stockRepository.save(stock);
     }
 
