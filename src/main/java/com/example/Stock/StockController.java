@@ -23,6 +23,13 @@ public class StockController {
 
     @PostMapping
     public void register(@RequestBody Stock stock){
+
+        System.out.println("Controller entre " + stock);
+
+
+        //stock.setQuantite(null);
+        System.out.println("Controller sortie " +stock);
+
         stockService.Addstock(stock);
     }
 }
